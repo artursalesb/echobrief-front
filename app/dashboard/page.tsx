@@ -1,5 +1,6 @@
 'use client'
-
+import { Mic } from 'lucide-react'
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Cookies from 'js-cookie'
@@ -44,6 +45,13 @@ export default function DashboardPage() {
       <Header />
 
       <main className="max-w-2xl mx-auto px-4 py-8 flex flex-col gap-8">
+        <Link
+          href="/audio"
+          className="flex items-center justify-center gap-3 bg-violet-600 hover:bg-violet-500 text-white rounded-2xl py-5 transition-colors"
+        >
+          <Mic size={22} />
+          <span className="font-medium">Gravar novo áudio</span>
+       </Link>
 
         <div className="flex items-center justify-between">
           <div>
