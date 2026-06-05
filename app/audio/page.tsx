@@ -14,7 +14,7 @@ export default function AudioPage() {
   const [result, setResult] = useState(null)
   const [error, setError] = useState('')
 
-async function handleAudioReady(audioBlob) {
+async function handleAudioReady(audioBlob: Blob) {
   setLoading(true)
   setError('')
   setResult(null)
