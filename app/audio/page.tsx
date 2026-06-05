@@ -14,26 +14,26 @@ export default function AudioPage() {
   const [result, setResult] = useState(null)
   const [error, setError] = useState('')
 
-  async function handleAudioReady(audioBlob) {
-    setLoading(true)
-    setError('')
-    setResult(null)
+async function handleAudioReady(audioBlob) {
+  setLoading(true)
+  setError('')
+  setResult(null)
 
-    try {
-      const formData = new FormData()
-      formData.append('file', audioBlob, 'audio.webm')
+  try {
+    const formData = new FormData()
+    formData.append('file', audioBlob, 'audio.webm')
 
-      const { data } = await api.post('/api/ai/audio', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      })
+    const { data } = await api.post('/api/ai/audio', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
 
-      setResult(data)
-    } catch (err) {
-      setError('Erro ao processar o áudio. Tenta de novo.')
-    } finally {
-      setLoading(false)
-    }
+    setResult(data)
+  } catch (err) {
+    setError('Erro ao processar o áudio. Tenta de novo.')
+  } finally {
+    setLoading(false)
   }
+}
 
   return (
     <div className="min-h-screen bg-zinc-950">
