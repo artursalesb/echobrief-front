@@ -13,7 +13,7 @@ export default function LoginPage() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError('')
     setLoading(true)
@@ -23,7 +23,7 @@ export default function LoginPage() {
       const { data } = await api.post(endpoint, { email, password })
       Cookies.set('token', data.token, { expires: 1 })
       router.push('/dashboard')
-    } catch (err) {
+    } catch (err: any) {
       setError(err.response?.data?.error || 'Algo deu errado, tenta de novo.')
     } finally {
       setLoading(false)
