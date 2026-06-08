@@ -6,10 +6,11 @@ import Cookies from 'js-cookie'
 import Header from '../components/Header'
 import { Clock } from 'lucide-react'
 import api from '@/lib/api'
+import { HistoryItem } from '../types'
 
 export default function HistoryPage() {
   const router = useRouter()
-  const [history, setHistory] = useState([])
+  const [history, setHistory] = useState<HistoryItem[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -24,7 +25,7 @@ export default function HistoryPage() {
     try {
       const { data } = await api.get('/api/history')
       setHistory(data)
-    } catch (err) {
+    } catch (err: any) {
       if (err.response?.status === 401 || err.response?.status === 403) {
         Cookies.remove('token')
         router.push('/')
@@ -34,7 +35,7 @@ export default function HistoryPage() {
     }
   }
 
-  function formatDate(dateStr) {
+  function formatDate(dateStr: string) {
     return new Date(dateStr).toLocaleString('pt-BR')
   }
 
@@ -62,21 +63,16 @@ export default function HistoryPage() {
           <div className="flex flex-col gap-4">
             {history.map((item) => (
               <div key={item.id} className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 flex flex-col gap-3">
-
                 <span className="text-zinc-500 text-xs">{formatDate(item.createdAt)}</span>
-
                 <div className="flex flex-col gap-1">
                   <span className="text-zinc-500 text-xs uppercase tracking-wider">Transcrição</span>
                   <p className="text-zinc-300 text-sm leading-relaxed">{item.transcription}</p>
                 </div>
-
                 <div className="h-px bg-zinc-800" />
-
                 <div className="flex flex-col gap-1">
                   <span className="text-zinc-500 text-xs uppercase tracking-wider">Resposta da IA</span>
                   <p className="text-white text-sm leading-relaxed">{item.reply}</p>
                 </div>
-
               </div>
             ))}
           </div>

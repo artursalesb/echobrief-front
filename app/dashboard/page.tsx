@@ -1,17 +1,18 @@
 'use client'
-import { Mic } from 'lucide-react'
-import Link from 'next/link'
+
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Cookies from 'js-cookie'
 import api from '@/lib/api'
 import Header from '../components/Header'
 import TaskCard from '../components/TaskCard'
-import { RefreshCw } from 'lucide-react'
+import { RefreshCw, Mic } from 'lucide-react'
+import Link from 'next/link'
+import { Task } from '../types'
 
 export default function DashboardPage() {
   const router = useRouter()
-  const [tasks, setTasks] = useState([])
+  const [tasks, setTasks] = useState<Task[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -27,7 +28,7 @@ export default function DashboardPage() {
     try {
       const { data } = await api.get('/api/tasks')
       setTasks(data)
-    } catch (err) {
+    } catch (err: any) {
       if (err.response?.status === 401 || err.response?.status === 403) {
         Cookies.remove('token')
         router.push('/')
@@ -45,13 +46,14 @@ export default function DashboardPage() {
       <Header />
 
       <main className="max-w-2xl mx-auto px-4 py-8 flex flex-col gap-8">
+
         <Link
           href="/audio"
           className="flex items-center justify-center gap-3 bg-violet-600 hover:bg-violet-500 text-white rounded-2xl py-5 transition-colors"
         >
           <Mic size={22} />
           <span className="font-medium">Gravar novo áudio</span>
-       </Link>
+        </Link>
 
         <div className="flex items-center justify-between">
           <div>
@@ -80,7 +82,6 @@ export default function DashboardPage() {
           </div>
         ) : (
           <div className="flex flex-col gap-6">
-
             {pending.length > 0 && (
               <section className="flex flex-col gap-3">
                 <h3 className="text-zinc-400 text-xs font-medium uppercase tracking-wider">
@@ -91,7 +92,6 @@ export default function DashboardPage() {
                 ))}
               </section>
             )}
-
             {done.length > 0 && (
               <section className="flex flex-col gap-3">
                 <h3 className="text-zinc-400 text-xs font-medium uppercase tracking-wider">
@@ -102,7 +102,6 @@ export default function DashboardPage() {
                 ))}
               </section>
             )}
-
           </div>
         )}
 
